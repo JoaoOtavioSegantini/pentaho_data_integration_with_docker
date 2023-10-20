@@ -1,7 +1,7 @@
 version: "3.7"
 
 services:
-  pen-server:
+  pentaho-server:
     build: .
     container_name: pentaho
     networks:
@@ -13,9 +13,10 @@ services:
       - ./local:/root/.kettle
     environment:
       - TZ=America/Sao_Paulo
-  
+
   postgres:
     image: postgres:15
+    container_name: postgres_pentaho
     volumes:
       - "./.docker/dbdata:/var/lib/postgresql/data"
     environment:
@@ -23,6 +24,20 @@ services:
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
     ports:
       - 5432:5432
+    networks:
+      - etl_pentaho
+
+  # pgadmin:
+  #  image: dpage/pgadmin4:7.8
+  #  environment:
+  #    - PGADMIN_DEFAULT_EMAIL=${PGADMIN_USER}
+  #    - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_PASS} 
+  #  depends_on:
+  #     - postgres
+  #  ports:
+  #     - "16543:80"
+  #  networks:
+  #     - etl_pentaho
 
 networks:
   etl_pentaho:
