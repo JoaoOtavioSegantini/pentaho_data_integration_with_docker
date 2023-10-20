@@ -24,23 +24,23 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*;
 
 RUN apt-get update \
-    && apt-get install -qq software-properties-common \
+    && apt-get install -y software-properties-common \
     && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 3B4FE6ACC0B21F32 \
     && add-apt-repository 'deb [trusted=yes] http://cz.archive.ubuntu.com/ubuntu bionic main universe' \
     && apt-get update \
-    && apt-get install -qq libwebkitgtk-1.0-0
+    && apt-get install -y libwebkitgtk-1.0-0 \
+    && apt-get clean
 
+RUN sh -c "$(wget --progress=dot:giga- \
+    https://privatefilesbucket-community-edition.s3.us-west-2.amazonaws.com/${PENTAHO_VERSION}/ce/client-tools/pdi-ce-${PENTAHO_VERSION}.zip \
+    -O /tmp/pentaho-server-ce-${PENTAHO_VERSION}.zip)" \
+    && unzip /tmp/pentaho-server-ce-${PENTAHO_VERSION}.zip -d ${PENTAHO_HOME} \
+    && rm -f /tmp/pentaho-server-ce-${PENTAHO_VERSION}.zip \
+    && chmod +x ${PENTAHO_HOME}/data-integration/spoon.sh
 
-RUN /usr/bin/wget --progress=dot:giga \
-    "https://privatefilesbucket-community-edition.s3.us-west-2.amazonaws.com/${PENTAHO_VERSION}/ce/client-tools/pdi-ce-${PENTAHO_VERSION}.zip" \
-    -O /tmp/pentaho-server-ce-${PENTAHO_VERSION}.zip; \
-    /usr/bin/unzip -q /tmp/pentaho-server-ce-${PENTAHO_VERSION}.zip -d ${PENTAHO_HOME}; \
-    rm -f /tmp/pentaho-server-ce-${PENTAHO_VERSION}.zip; \
-    chmod +x /opt/pentaho/data-integration/spoon.sh;
-
-RUN mkdir ${PENTAHO_HOME}; useradd -s /bin/bash -d ${PENTAHO_HOME} pentaho; chown -R pentaho:pentaho ${PENTAHO_HOME}/data-integration;
-
-#USER pentaho
+ RUN addgroup --system pentaho && adduser --system pentaho --ingroup pentaho
+ RUN chown -R pentaho:pentaho ${PENTAHO_HOME}/data-integration
+ USER pentaho:pentaho
 
 WORKDIR /opt/pentaho
 
