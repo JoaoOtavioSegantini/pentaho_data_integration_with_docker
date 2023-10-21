@@ -27,17 +27,19 @@ services:
     networks:
       - etl_pentaho
 
-  # pgadmin:
-  #  image: dpage/pgadmin4:7.8
-  #  environment:
-  #    - PGADMIN_DEFAULT_EMAIL=${PGADMIN_USER}
-  #    - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_PASS} 
-  #  depends_on:
-  #     - postgres
-  #  ports:
-  #     - "16543:80"
-  #  networks:
-  #     - etl_pentaho
+  pgadmin:
+    image: dpage/pgadmin4:7.8
+    profiles:
+      - "pgadmin"
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_USER}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_PASS}
+    depends_on:
+      - postgres
+    ports:
+      - "9000:80"
+    networks:
+      - etl_pentaho
 
 networks:
   etl_pentaho:
