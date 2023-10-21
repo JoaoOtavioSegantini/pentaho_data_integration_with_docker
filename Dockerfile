@@ -1,13 +1,16 @@
 FROM openjdk:11-slim
 
+# set pentaho data integration version (PDI)
 ENV PENTAHO_VERSION 9.4.0.0-343
 ENV PENTAHO_HOME /opt/pentaho
 
+# set pentaho environment variables
 ENV PENTAHO_JAVA_HOME $JAVA_HOME
 ENV PENTAHO_JAVA_HOME /usr/local/openjdk-11
 ENV JAVA_HOME=/usr/local/openjdk-11
 ENV DISPLAY host.docker.internal:0.0
 
+# install necessary dependencies and clear cache
 RUN apt-get update \
     && apt-get install -y zip \
     wget \
@@ -23,6 +26,8 @@ RUN apt-get update \
     && apt clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*;
 
+# install libwebkitgtk package, essencial for PDI running, 
+# according to pentaho data integration README.txt
 RUN apt-get update \
     && apt-get install -y software-properties-common \
     && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 3B4FE6ACC0B21F32 \
@@ -31,6 +36,7 @@ RUN apt-get update \
     && apt-get install -y libwebkitgtk-1.0-0 \
     && apt-get clean
 
+# download and unzip PDI community edition
 RUN sh -c "$(wget --progress=dot:giga- \
     https://privatefilesbucket-community-edition.s3.us-west-2.amazonaws.com/${PENTAHO_VERSION}/ce/client-tools/pdi-ce-${PENTAHO_VERSION}.zip \
     -O /tmp/pentaho-server-ce-${PENTAHO_VERSION}.zip)" \
@@ -38,12 +44,17 @@ RUN sh -c "$(wget --progress=dot:giga- \
     && rm -f /tmp/pentaho-server-ce-${PENTAHO_VERSION}.zip \
     && chmod +x ${PENTAHO_HOME}/data-integration/spoon.sh
 
- RUN addgroup --system pentaho && adduser --system pentaho --ingroup pentaho
- RUN chown -R pentaho:pentaho ${PENTAHO_HOME}/data-integration
- USER pentaho:pentaho
+# adds a non-root user to run the system
+RUN addgroup --system pentaho && adduser --system pentaho --ingroup pentaho
+
+# adds permission to user pentaho to run the system 
+# in the folders that have been previously unzipped
+RUN chown -R pentaho:pentaho ${PENTAHO_HOME}/data-integration
+
+USER pentaho:pentaho
 
 WORKDIR /opt/pentaho
 
 EXPOSE 8080 8009
 
-CMD ["sh", "/opt/pentaho/data-integration/spoon.sh"]
+CMD ["sh", "${PENTAHO_HOME}/data-integration/spoon.sh"]
