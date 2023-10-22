@@ -55,6 +55,6 @@ USER pentaho:pentaho
 
 WORKDIR /opt/pentaho
 
-EXPOSE 8080 8009
+EXPOSE 8080
 
-CMD ["sh", "${PENTAHO_HOME}/data-integration/spoon.sh"]
+CMD ["sh", "/opt/pentaho/data-integration/spoon.sh"]
