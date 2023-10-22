@@ -9,6 +9,7 @@ ENV PENTAHO_JAVA_HOME $JAVA_HOME
 ENV PENTAHO_JAVA_HOME /usr/local/openjdk-11
 ENV JAVA_HOME=/usr/local/openjdk-11
 ENV DISPLAY host.docker.internal:0.0
+ENV KETTLE_HOME=$PENTAHO_HOME/pdi
 
 # install necessary dependencies and clear cache
 RUN apt-get update \
@@ -54,6 +55,8 @@ RUN chown -R pentaho:pentaho ${PENTAHO_HOME}/data-integration
 USER pentaho:pentaho
 
 WORKDIR /opt/pentaho
+
+COPY ./local ${KETTLE_HOME}/.kettle
 
 EXPOSE 8080
 
