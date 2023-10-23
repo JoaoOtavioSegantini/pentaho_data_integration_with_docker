@@ -10,7 +10,7 @@ services:
     ports:
       - "8081:8080"
     volumes:
-      - ./local:/root/.kettle
+      - ./local:/opt/pentaho/pdi/.kettle
     environment:
       - TZ=America/Sao_Paulo
 

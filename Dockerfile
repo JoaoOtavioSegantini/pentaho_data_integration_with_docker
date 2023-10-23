@@ -13,7 +13,8 @@ ENV KETTLE_HOME=$PENTAHO_HOME/pdi
 
 # install necessary dependencies and clear cache
 RUN apt-get update \
-    && apt-get install -y zip \
+    && apt-get install -y \
+    zip \
     wget \
     unzip \
     git \
@@ -46,17 +47,18 @@ RUN sh -c "$(wget --progress=dot:giga- \
     && chmod +x ${PENTAHO_HOME}/data-integration/spoon.sh
 
 # adds a non-root user to run the system
-RUN addgroup --system pentaho && adduser --system pentaho --ingroup pentaho
+# RUN addgroup --system pentaho && adduser --system pentaho --ingroup pentaho
 
 # adds permission to user pentaho to run the system 
 # in the folders that have been previously unzipped
-RUN chown -R pentaho:pentaho ${PENTAHO_HOME}/data-integration
+# RUN chown -R pentaho:pentaho ${PENTAHO_HOME}/data-integration
 
-USER pentaho:pentaho
+# COPY ./local ${KETTLE_HOME}/.kettle
+# RUN chmod o+w ${KETTLE_HOME}/.kettle
+
+# USER pentaho
 
 WORKDIR /opt/pentaho
-
-COPY ./local ${KETTLE_HOME}/.kettle
 
 EXPOSE 8080
 
