@@ -45,7 +45,6 @@ RUN addgroup --system pentaho && adduser --system pentaho --ingroup pentaho
 # in the folders where Pentaho will be installed
 RUN mkdir -p ${PENTAHO_HOME} && chown -R pentaho:pentaho ${PENTAHO_HOME}
 
-# adds permission to user pentaho to run the system 
 USER pentaho
 
 # download and unzip PDI community edition
