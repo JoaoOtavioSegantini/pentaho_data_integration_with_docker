@@ -10,6 +10,12 @@ Você pode rodar o projeto executando o seguinte comando:
   docker-compose up -d
 ```
 
+Caso queira subir o pentaho juntamente com o container do Pgadmin, utilize o seguinte comando:
+
+```zsh
+  docker-compose --profile pgadmin up -d
+```
+
 ### Para Windows 
 
 Caso esteja em ambiente windows e utilizando o WSL2, para que o projeto funcione é imprescindível que você instale um 
