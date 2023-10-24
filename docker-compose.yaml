@@ -22,7 +22,7 @@ services:
     environment:
       POSTGRES_USER: ${DATABASE_USER}
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
-      LANG: pt_BR.utf8
+      POSTGRES_INITDB_ARGS: "--locale-provider=icu --icu-locale=pt_BR --encoding=UTF8"
     ports:
       - 5432:5432
     networks:
