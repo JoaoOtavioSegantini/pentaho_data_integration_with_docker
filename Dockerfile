@@ -5,6 +5,9 @@ ENV PENTAHO_VERSION 9.4.0.0-343
 ENV PENTAHO_HOME /opt/pentaho
 
 # set pentaho environment variables
+# For more information:
+# https://help.hitachivantara.com/Documentation/Pentaho/Data_Integration_and_Analytics/9.4/Setup/Customize_the_Pentaho_Server
+# https://help.hitachivantara.com/Documentation/Pentaho/Data_Integration_and_Analytics/9.4/Products/Pentaho_Data_Integration?ecid=ms_glo_bd_en_sscepen01
 ENV PENTAHO_JAVA_HOME $JAVA_HOME
 ENV PENTAHO_JAVA_HOME /usr/local/openjdk-11
 ENV JAVA_HOME=/usr/local/openjdk-11
@@ -22,7 +25,6 @@ RUN apt-get update \
     libwebkit2gtk-4.0-37 \
     gnupg \
     gnupg2 \
-    gnupg1 \
     libgtk2.0-0 \
     libswt-gtk-4-java \
     && apt clean \
