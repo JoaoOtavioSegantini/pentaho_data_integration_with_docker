@@ -1,4 +1,4 @@
 .docker
 .env
 opt
-repositories.xml
+.kettle
