@@ -10,7 +10,7 @@ Você pode rodar o projeto executando o seguinte comando:
   docker-compose up -d
 ```
 
-Caso queira subir o pentaho juntamente com o container do Pgadmin, utilize o seguinte comando:
+Caso queira subir o pentaho juntamente com o container do pgAdmin, utilize o seguinte comando:
 
 ```zsh
   docker-compose --profile pgadmin up -d
